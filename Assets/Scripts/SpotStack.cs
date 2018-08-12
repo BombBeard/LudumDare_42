@@ -2,7 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpotStack : MonoBehaviour {
+[System.Serializable]
+[RequireComponent(typeof(Transform))]
+[RequireComponent(typeof(BoxCollider))]
+public class SpotStack : MonoBehaviour{
+
+    [HideInInspector]
+    public static int stackCounter = 0;
+    public GameObject gameObject;
+    public BoxCollider stackCollider;
 
     public enum RELIC_SIZE
     {
@@ -17,15 +25,67 @@ public class SpotStack : MonoBehaviour {
     public List<Spot[]> spots;// Layer -> [4] Spots
     public int stackHeight;// highest layer containing a relic
 
+    public SpotStack()
+    {
+        stackCounter++;
+        gameObject = new GameObject("SpotStack" + stackCounter.ToString());
+        stackCollider =  gameObject.AddComponent<BoxCollider>();
+        stackCollider.center = new Vector3(0f, .5f, 0f);
+        stackCollider.isTrigger = true;
+    }
 
-	// Use this for initialization
-	void Start () {
+    void Start()
+    { 
         spots[0] = GenerateSpots();
 	}
 
 
+
+    //Assumes chosen spot is valid
+    public void PlaceRelic(Relic relic, Spot[] spot)//TODO implement
+    {
+        /* Parent relic to stack
+         * set relic to average of spots given in local space
+         * Stretch: play place animation
+         */ 
+        //Parent relic to spotStack
+        //DesiredLayerPosition is spot[0].layerposition
+        //DesiredGridPosition is the position of the average of spot[] positions
+        //SetRelicPosition (DesiredGridPosition.x, DesiredLayerPosition , DesiredGrid.z
+
+
+    }
+
+    //public Spot[] GetPlaceableSpots(Relic relic)
+    //{
+        //Spot[] placeableSpots;
+
+        /* if(IsLayerFull( stackHeight, relic) && (stackHeight < MAX_STACK_HEIGHT)
+         *      AddLayer();
+         *      return all spots in new layer
+         * if(!(IsLayerFull( stackHeight, relic))
+         * 
+         * 
+         */
+
+    //    return placeableSpots;
+    //}
+
+    private bool IsLayerFull(int layer)
+    {
+
+
+        return false;
+    }
+    private bool IsLayerFull(int layer, Relic relic)
+    {
+
+        return false;
+    }
+
+    
     //Evaluates if a given spot is a valid surface for relics to stack on
-    public bool IsValidSpot()
+    public bool IsValidSpot(Spot spot)
     {
         return false;//TODO Implement
     }
@@ -84,15 +144,15 @@ public class SpotStack : MonoBehaviour {
         if (!IsLayerEmpty(layerNumber))//If layer has Spots assigned
             return null;
         Spot[] spots = new Spot[STACK_RESOLUTION];
-        int cnt = 0;// hack to get correct incrementing of array
+        int cnt = 0;// is a hack to get correct incrementing of array
         //Iterate over grid and set new Spot to center of each grid
         for (int i = 0; i < STACK_RESOLUTION/2; i++)
         {
             for (int j = 0; j < STACK_RESOLUTION/2; j++)
             {
                 spots[cnt] = new Spot();
-                spots[cnt].transform.SetParent(transform);
-                spots[cnt++].transform.localPosition = new Vector3(0, layerNumber, 0);
+                spots[cnt].gameObject.transform.SetParent( gameObject.transform );
+                spots[cnt++].gameObject.transform.localPosition = new Vector3(0, layerNumber, 0);
             }
         }
 

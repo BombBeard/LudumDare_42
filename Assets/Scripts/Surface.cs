@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Surface : MonoBehaviour {
 
+    [SerializeField]
     public List<SpotStack> spotStacks;
 
-    private Vector3 surfaceDimensions;
-
+    public Vector3 surfaceDimensions;
+    
 	// Use this for initialization
 	void Start ()
     {
@@ -15,7 +16,6 @@ public class Surface : MonoBehaviour {
 
         spotStacks = new List<SpotStack>();
         spotStacks = SetSpotStacks(GenerateSpotPositions());
-
 	}
 	
 
@@ -24,9 +24,10 @@ public class Surface : MonoBehaviour {
         return false;
     }
 
-    private List<SpotStack> SetSpotStacks(Queue<Vector3> stackTransforms)
+    private List<SpotStack> SetSpotStacks(List<Vector3> stackTransforms)
     {
-        /* TODO create SpotStack
+        #region pseudo
+        /* 
          * foreach stack in stackTransforms
          *      create SpotStack("Parent_SpotStack_coord")
          *      add to List
@@ -35,15 +36,30 @@ public class Surface : MonoBehaviour {
          *      Deenqueue at some point
          *      When empty: return List
          */
+        #endregion
+        List<SpotStack> result = new List<SpotStack>();
+        SpotStack tmp;
+       foreach (Vector3 spotPosition in stackTransforms)
+        {
+            tmp = new SpotStack();
+            tmp.gameObject.transform.SetParent(transform);
+            tmp.gameObject.transform.localPosition = spotPosition;
+            result.Add(tmp);
+        }
+
+        return result;
     }
 
-    private Queue<Vector3> GenerateSpotPositions()//TODO Test Method
+    private List<Vector3> GenerateSpotPositions()//TODO Test Method
     {
-        Queue<Vector3> viablePositions = new Queue<Vector3>();
+        List<Vector3> viablePositions = new List<Vector3>();
 
-        float targetX = 0;
-        float targetY = transform.position.y;
-        float targetZ = 0;
+        float xPivotOffset = surfaceDimensions.x / 2f;
+        float zPivotOffset = surfaceDimensions.z / 2f;
+
+        float targetX = 0f;
+        float targetY = 0f;
+        float targetZ = 0f;
 
         //Determine SpotStack positions on surface
         //Used for placing SpotStacks elsewhere
@@ -51,12 +67,13 @@ public class Surface : MonoBehaviour {
         {
             //Iterate through whole numbers, stepping back half a step
             targetX = ((float)x) - (2f / SpotStack.STACK_RESOLUTION);//STACK_RESOLUTION allows for variation in subdivision of grid
+            targetX -= xPivotOffset;
             for (int z = 1; z <= surfaceDimensions.z; z++)
             {
                 targetZ = (float)z - (2f / SpotStack.STACK_RESOLUTION);
-                viablePositions.Enqueue(new Vector3(targetX, targetY, targetZ));
+                targetZ -= zPivotOffset;
+                viablePositions.Add(new Vector3(targetX, targetY, targetZ));
             }
-
         }
         return viablePositions;
     }

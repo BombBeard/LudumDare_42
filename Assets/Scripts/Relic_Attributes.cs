@@ -1,21 +1,30 @@
-﻿using System.Collections;
+﻿/* Supplies information about various relics as
+ * static data. Only used during Init or Reset
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Relic_Attributes", menuName = "Relic_Attributes")]
-public class Relic_Attributes : ScriptableObject{
+[CreateAssetMenu(fileName = "RelicAttribute",menuName = "RelicAttribute")]
+[RequireComponent(typeof(MeshRenderer))]
+public class Relic_Attributes : ScriptableObject {
 
-    public static readonly float MIN_GROWTH = .001f;
-    public static readonly float MAX_GROWTH = 2f;
+    [Range(.001f, 2f)]
+    public float growth = 1f;
+    [Range(.001f, 2f)]
+    public float modifier = 1f;
+    [Range(1f, 1000f)]
+    public float value = 1;
 
-
-    public new string name = "";
     public string description = "";
-    public Mesh mesh = null;
-    public Vector2 spotDimensions = SMALL;
-    public int multiplier = 1;
-    public int value = 1;
-    public float baseGrowth = 1.0f;
 
+    public SpotStack.RELIC_SIZE relicSize = SpotStack.RELIC_SIZE.SMALL;
+
+    public Mesh mesh;
+    public MeshRenderer renderer;
+
+    private void OnEnable()
+    {
+    }
 
 }

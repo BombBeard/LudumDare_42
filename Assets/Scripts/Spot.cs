@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Spot : MonoBehaviour {
+[System.Serializable]
+public class Spot {
 
+    public GameObject gameObject;
+    private static int numOfSpots = 0;
     public bool isOpen = true;
     public int layerPosition;
     public Vector3 localPosition = new Vector3();
 
     //public Relic_Attributes relicContained = null;
-
-
-	// Use this for initialization
-	void Start () {
+    public Spot( string name = "Spot_")
+    {
+        numOfSpots = ++numOfSpots % SpotStack.STACK_RESOLUTION;
+        name += numOfSpots.ToString();
+        gameObject = new GameObject(name);
 
     }
 
