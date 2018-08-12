@@ -6,6 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class Spot {
 
+    public const int MAX_STACK_HEIGHT = 4;
+
     public GameObject gameObject;
     private static int numOfSpots = 0;
     public bool isOpen = true;

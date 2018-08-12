@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 [RequireComponent(typeof(Transform))]
 [RequireComponent(typeof(BoxCollider))]
-public class SpotStack : MonoBehaviour{
+public class SpotStack{
 
     [HideInInspector]
     public static int stackCounter = 0;
@@ -18,8 +18,6 @@ public class SpotStack : MonoBehaviour{
         MEDIUM,
         LARGE
     };
-    public const int STACK_RESOLUTION = 4;// num of Spots in a layer assumed even
-    private const int MAX_STACK_HEIGHT = 4;
 
 
     public List<Spot[]> spots;// Layer -> [4] Spots

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Surface : MonoBehaviour {
+    public readonly float GRID_RESOLUTION = 4f;
 
     [SerializeField]
     public List<SpotStack> spotStacks;
