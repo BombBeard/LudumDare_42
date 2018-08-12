@@ -5,9 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RelicAttribute",menuName = "RelicAttribute")]
+[CreateAssetMenu(fileName = "RelicAttribute",menuName = "Relic", order = 1)]
 [RequireComponent(typeof(MeshRenderer))]
 public class Relic_Attributes : ScriptableObject {
+
+    public enum RELIC_SIZE { XSMALL, SMALL, MEDIUM, LARGE, XLARGE };
 
     [Range(.001f, 2f)]
     public float growth = 1f;
@@ -18,7 +20,7 @@ public class Relic_Attributes : ScriptableObject {
 
     public string description = "";
 
-    public SpotStack.RELIC_SIZE relicSize = SpotStack.RELIC_SIZE.SMALL;
+    public Relic_Attributes.RELIC_SIZE relicSize = Relic_Attributes.RELIC_SIZE.SMALL;
 
     public Mesh mesh;
     public MeshRenderer renderer;

@@ -23,7 +23,7 @@ public class Relic_Metrics : MonoBehaviour {
 
     }
 
-    //Called from parent SpotStack when stack is updated
+    //Called from parent RelicStack when stack is updated
     public void SetStackModifier(float stackMod) { stackModifier = stackMod; }
 
     //Intended to be called every turn transition
